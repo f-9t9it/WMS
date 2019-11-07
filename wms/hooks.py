@@ -11,6 +11,20 @@ app_color = "grey"
 app_email = "info@9t9it.com"
 app_license = "MIT"
 
+fixtures = [
+    {
+        "doctype": "Custom Field",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Pick List-wms_scan_barcode"
+                ]
+            ]
+        ]
+    }
+]
 # Includes in <head>
 # ------------------
 
@@ -26,7 +40,7 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"Pick List": "public/js/pick_list.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}

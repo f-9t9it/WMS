@@ -1,0 +1,64 @@
+frappe.ui.form.on("Pick List", {
+    wms_scan_barcode: async function(frm) {
+        if (!frm.doc.wms_scan_barcode) {
+            return;
+        }
+
+        function set_description(msg) {
+            frm.fields_dict['wms_scan_barcode'].set_new_description(__(msg));
+        }
+
+        function set_value(value) {
+            frm.set_value('wms_scan_barcode', value);
+        }
+
+        const { wms_scan_barcode: search_value, locations: items } = frm.doc;
+        const { message: data } = await frappe.call({
+            method: "erpnext.selling.page.point_of_sale.point_of_sale.search_serial_or_batch_or_barcode_number",
+            args: { search_value }
+        });
+
+        if (!data || Object.keys(data).length === 0) {
+            set_description('Cannot find Item with this barcode');
+            return;
+        }
+
+        const row = items.find(({ item_code, batch_no }) => {
+            if (batch_no) {
+                return item_code == data.item_code && batch_no == data.batch_no;
+            }
+            return item_code === data.item_code;
+        });
+
+        set_value('');
+        set_description('');
+
+        if (row.item_code) {
+            const { qty } = await _confirm_dialog();
+            if (row.qty !== qty) {
+                frappe.throw(__("Item Qty not the same with Qty"));
+            } else {
+                frappe.msgprint(__("Item is correct"));
+            }
+        } else {
+            frappe.throw(__("Item not found for Pick List"));
+        }
+    }
+});
+
+function _confirm_dialog() {
+    return new Promise((resolve, reject) => {
+        const dialog = new frappe.ui.Dialog({
+            title: 'Confirm Item',
+            fields: [
+                {fieldname: 'qty', fieldtype: 'Float', label: 'Qty'},
+            ],
+            primary_action_label: 'Confirm',
+            primary_action: function (values) {
+                resolve(values);
+                dialog.hide();
+            }
+        });
+        dialog.show();
+    });
+}
