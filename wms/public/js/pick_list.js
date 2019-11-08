@@ -33,25 +33,21 @@ frappe.ui.form.on("Pick List", {
         set_value('');
         set_description('');
 
-        if (row.item_code) {
-            const { qty } = await _confirm_dialog();
-            if (row.qty !== qty) {
-                frappe.throw(__("Item Qty not the same with Qty"));
-            } else {
-                frappe.msgprint(__("Item is correct"));
-            }
-        } else {
+        if (!row.item_code) {
             frappe.throw(__("Item not found for Pick List"));
         }
+
+        const { qty } = await _confirm_dialog(row.qty);
+        frappe.model.set_value(row.doctype, row.name, 'picked_qty', qty);
     }
 });
 
-function _confirm_dialog() {
+function _confirm_dialog(qty) {
     return new Promise((resolve, reject) => {
         const dialog = new frappe.ui.Dialog({
-            title: 'Confirm Item',
+            title: 'Modify Item Picked',
             fields: [
-                {fieldname: 'qty', fieldtype: 'Float', label: 'Qty'},
+                {fieldname: 'qty', fieldtype: 'Float', label: 'Qty', default: qty || 0},
             ],
             primary_action_label: 'Confirm',
             primary_action: function (values) {
