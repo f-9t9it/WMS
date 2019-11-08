@@ -1,3 +1,5 @@
+const _picked = [];
+
 frappe.ui.form.on("Pick List", {
     wms_scan_barcode: async function(frm) {
         if (!frm.doc.wms_scan_barcode) {
@@ -40,6 +42,15 @@ frappe.ui.form.on("Pick List", {
         const { qty } = await _confirm_dialog(row.qty);
         frappe.model.set_value(row.doctype, row.name, 'picked_qty', qty);
         frm.fields_dict['wms_scan_barcode'].$input.focus();
+
+        if (!_picked.includes(row.name)) {
+            _picked.push(row.name);
+        }
+
+        if (_check_all_picked(frm.doc.locations)) {
+            const save = await _submit_dialog();
+            save && frm.savesubmit();
+        }
     }
 });
 
@@ -58,4 +69,18 @@ function _confirm_dialog(qty) {
         });
         dialog.show();
     });
+}
+
+function _submit_dialog() {
+    return new Promise((resolve, reject) => {
+        frappe.confirm(
+            __('All Items are picked. Would you like to submit the document?'),
+            () => resolve(true),
+            () => resolve(false)
+        );
+    });
+}
+
+function _check_all_picked(locations) {
+    return locations.every(location => _picked.includes(location.name));
 }
