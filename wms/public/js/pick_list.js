@@ -39,6 +39,7 @@ frappe.ui.form.on("Pick List", {
 
         const { qty } = await _confirm_dialog(row.qty);
         frappe.model.set_value(row.doctype, row.name, 'picked_qty', qty);
+        frm.fields_dict['wms_scan_barcode'].$input.focus();
     }
 });
 
