@@ -19,7 +19,21 @@ fixtures = [
                 "name",
                 "in",
                 [
-                    "Pick List-wms_scan_barcode"
+                    "Pick List-wms_scan_barcode",
+                    "Pick List Item-wms_sales_invoice",
+                    "Pick List Item-wms_sales_invoice_item"
+                ]
+            ]
+        ]
+    },
+    {
+        "doctype": "Property Setter",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Pick List-purpose-options"
                 ]
             ]
         ]
@@ -40,7 +54,10 @@ fixtures = [
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Pick List": "public/js/pick_list.js"}
+doctype_js = {
+    "Pick List": "public/js/pick_list.js",
+    "Sales Invoice": "public/js/sales_invoice.js"
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}

@@ -1,0 +1,22 @@
+[
+ {
+  "_assign": null,
+  "_comments": null,
+  "_liked_by": null,
+  "_user_tags": null,
+  "default_value": null,
+  "doc_type": "Pick List",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "purpose",
+  "modified": "2019-11-11 18:01:29.773132",
+  "name": "Pick List-purpose-options",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "property": "options",
+  "property_type": "Text",
+  "value": "Material Transfer for Manufacture\nMaterial Transfer\nDelivery against Sales Order\nDelivery against Sales Invoice"
+ }
+]
