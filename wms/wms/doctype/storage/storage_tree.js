@@ -13,8 +13,13 @@ frappe.treeview_settings['Storage'] = {
         }
     ],
     fields: [
-        { fieldtype: 'Data', fieldname: 'storage_name', label: __('New Storage'), reqd: true },
-        { fieldtype: 'Check', fieldname: 'is_group', label: __('Is Group') }
+        {fieldtype: 'Data', fieldname: 'storage_name', label: __('New Storage'), reqd: true},
+        {fieldtype: 'Check', fieldname: 'is_group', label: __('Is Group')}
     ],
-    ignore_fields: ["parent_storage"]
+    ignore_fields: ["parent_storage"],
+    onload: function(treeview) {
+        treeview.page.add_inner_button(__('Layout'), function() {
+
+        }, __('Create'));
+    }
 };
